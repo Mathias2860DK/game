@@ -13,6 +13,8 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private float aimSensitivity;
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform debugTransform;
+    [SerializeField] private Transform pfBulletProjectile;
+    [SerializeField] private Transform spawnBulletPosition;
 
     private StarterAssetsInputs starterAssetsInputs;
     private ThirdPersonController thirdPersonController;
@@ -60,7 +62,11 @@ public class ThirdPersonShooterController : MonoBehaviour
             //when we stop aiming set to true
             thirdPersonController.SetRotateOnMove(true);
         }
-
-
+        if(starterAssetsInputs.shoot){
+            Debug.Log("hellooo");
+            Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
+            Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+            starterAssetsInputs.shoot = false; //if you click it shoots (like a pistol)
+        }
     }
 }
